@@ -19,6 +19,7 @@ cd /host
 
 # build release with debugging symbols
 ./build-debug.sh
+```
 
 cd into build directory (NB: test *.csv files are relative to this dir), and
 execute e2e and unit - tests.
