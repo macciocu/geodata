@@ -1,8 +1,8 @@
 # README #
 
-**geodata** is a cross platform CLI application which converts written
-numbers in words to digits. Execute `geodata -h` for usage info (or
-look at `app/app.cpp` and search for `case HELP`).
+**geodata** is a cross platform CLI application which cleans up car journey
+geo-location data. Execute `geodata -h` for usage info (or look at `app/app.cpp`
+and search for `HELP`).
 
 ### Development environment
 
@@ -12,10 +12,10 @@ testing framework. Workflow example:
 
 ```sh
 docker build . -t geodata:beta
-docker run -it -v $HOME:/host --rm geodata:beta
+docker run -it -v $PWD:/host --rm geodata:beta
 
 # cd to your mounted geodata project directory
-cd /host/<myprojects>/geodata
+cd /host
 
 # build release with debugging symbols
 ./build-debug.sh
