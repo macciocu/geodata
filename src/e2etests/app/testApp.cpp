@@ -65,17 +65,19 @@ TEST_CASE("Invalid CLI usage: file i/o error") {
 // validate with our e2e that the application behaves correct from start to
 // finish, to validate specific corner cases we use unit testing.
 TEST_CASE("Valid CLI usage: clean data") {
-  string tmpCsvOut = "../data/data_points_clean_temp.cvs";
+  string tmpCsvOut = "../data/tmp.csv";
 
   SECTION("test") {
     int argc = 5;
     string csvIn = "../data/data_points.csv";
-    const char *argv[5] = {"app.cpp", "-i", csvIn.c_str(), "-o", tmpCsvOut.c_str()};
+    const char *argv[5] = {"app.cpp", "-i", csvIn.c_str(), "-o",
+                           tmpCsvOut.c_str()};
 
     int rc = geo::app(argc, (char **)argv);
     REQUIRE(rc == 0);
 
-    fstream fsExpected("../data/data_points_clean.csv"), fsDetected(tmpCsvOut.c_str());
+    fstream fsExpected("../data/data_points_clean.csv"),
+        fsDetected(tmpCsvOut.c_str());
     int expLinesCount = 0, detLinesCount = 0, prevLinesCount = 0;
 
     do {
@@ -85,13 +87,14 @@ TEST_CASE("Valid CLI usage: clean data") {
         ++expLinesCount;
       if (getline(fsDetected, detected))
         ++detLinesCount;
-      if (expLinesCount != detLinesCount)
+      if (expLinesCount != detLinesCount) {
+        INFO("expLinesCount: " + to_string(expLinesCount));
+        INFO("detLinesCount: " + to_string(detLinesCount));
         FAIL("expLinesCount != detLinesCount");
+      }
       REQUIRE(expected == detected);
     } while (prevLinesCount < expLinesCount);
   }
 
-  SECTION("cleanup") {
-    remove(tmpCsvOut.c_str());
-  }
+  SECTION("cleanup") { remove(tmpCsvOut.c_str()); }
 }
