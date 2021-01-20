@@ -21,7 +21,7 @@ public:
   ~CsvReader() override{};
 
   CsvReader(const std::string &csvFile, const char delimiter = ',');
-  bool getNextRow(std::vector<std::string> &row);
+  bool readNextRow(std::vector<std::string> &row);
 };
 
 class CsvWriter : CsvBase {
@@ -29,7 +29,7 @@ public:
   ~CsvWriter() override{};
 
   CsvWriter(const std::string &csvFile, const char delimiter = ',');
-  void writeRow(const std::vector<std::string> &row);
+  void writeNextRow(const std::vector<std::string> &row);
 };
 
 } // namespace geo

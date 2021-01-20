@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <iostream>
+
 using namespace std;
 
 namespace geo {
@@ -30,10 +32,11 @@ CsvBase::CsvBase(const std::string &csvFile,
 CsvReader::CsvReader(const string &csvFile, const char delimiter)
     : CsvBase(csvFile, ios_base::in, delimiter) {}
 
-bool CsvReader::getNextRow(std::vector<std::string> &row) {
-  string line, col;
+bool CsvReader::readNextRow(std::vector<std::string> &row) {
   row.clear();
-  if (m_fstream >> line) {
+  string line;
+  if (getline(m_fstream, line)) {
+    string col;
     stringstream lineStream(line);
     while (getline(lineStream, col, m_delimiter))
       row.push_back(col);
@@ -49,7 +52,7 @@ bool CsvReader::getNextRow(std::vector<std::string> &row) {
 CsvWriter::CsvWriter(const string &csvFile, const char delimiter)
     : CsvBase(csvFile, ios_base::out, delimiter) {}
 
-void CsvWriter::writeRow(const std::vector<std::string> &row) {
+void CsvWriter::writeNextRow(const std::vector<std::string> &row) {
   for (auto it = row.begin(); it != row.end(); ++it) {
     m_fstream << *it;
     if (next(it) != row.end())

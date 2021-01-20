@@ -46,7 +46,7 @@ void GeoDataCleaner::clean(const string &csvFileIn, const string &csvFileOut) {
   prevNode.timestamp = numeric_limits<int>::min();
   std::vector<std::string> row;
 
-  while (csvReader.getNextRow(row)) {
+  while (csvReader.readNextRow(row)) {
     if (row.size() != 3)
       continue;
 
@@ -58,18 +58,23 @@ void GeoDataCleaner::clean(const string &csvFileIn, const string &csvFileOut) {
       continue;
 
     if (prevNode.timestamp == numeric_limits<int>::min()) {
-      csvWriter.writeRow(row);
+      csvWriter.writeNextRow(row);
       prevNode = node;
     } else if (checkSpeed(node, prevNode)) {
-      csvWriter.writeRow(row);
+      csvWriter.writeNextRow(row);
       prevNode = node;
     }
   }
 }
 
 bool GeoDataCleaner::checkCoord(const GeoNode &node) const {
-  return (node.latitude > -90 && node.latitude < 90 && node.longitude > -180 &&
-          node.longitude < 180);
+  const double margin = 0.000001;
+  // clang-format off
+  return (node.latitude > (-90.0 - margin) &&
+          node.latitude < (90.0 + margin) &&
+          node.longitude > (-180.0 - margin) &&
+          node.longitude < (180.0 + margin));
+  // clang-format on
 }
 
 bool GeoDataCleaner::checkSpeed(const GeoNode &node,

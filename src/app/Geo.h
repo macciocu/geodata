@@ -16,13 +16,14 @@ struct GeoNode {
   double distance(const GeoNode &node) const;
 };
 
+/// Cleans up car journey geo-location data.
 class GeoDataCleaner {
 public:
-  /// @param maxSpeed Maximum speed (km/hr); A datpoint is considered invalid
-  // if the speed difference exceeds this value.
+  /// @param maxSpeed Maximum speed (km/hr); A datapoint is considered invalid
+  /// if the speed difference exceeds this value.
   GeoDataCleaner(const int maxSpeed = 300);
-
-  // TODO
+  /// Cleans up a given set of geo location data-points which are given in
+  /// @a csvFileIn *.csv file, the cleaned up dataset is written to @a csvFileOut.
   void clean(const std::string &csvFileIn, const std::string &csvFileOut);
 
 private:

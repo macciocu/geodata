@@ -1,7 +1,5 @@
 #include "Geo.h"
 
-#include <iostream>
-#include <string>
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -9,8 +7,6 @@
 using namespace std;
 
 namespace geo {
-
-void normalize(const string &csvFile);
 
 int app(int argc, char *argv[]) {
   // return code
@@ -64,11 +60,34 @@ int app(int argc, char *argv[]) {
     cout << "Execute with \"-h\" to display help." << endl;
     break;
   case HELP:
-    cout << "TODO: DESCRIPTION" << endl;
+    // clang-format off
+    cout << "=================================================================" << endl
+         << "DESCRIPTION:" << endl
+         << "This CLI application cleans up a given *.csv dataset of" << endl
+         << "car journey geo-location points. It outputs the cleaned "  << endl
+         << "dataset to a new *.csv file." << endl
+         << "-----------------------------------------------------------------" << endl
+         << "USAGE:" << endl
+         << "$ geodata -i './in.csv' -o './out.csv'" << endl
+         << "-----------------------------------------------------------------" << endl
+         << "KNOWN LIMITATIONS:" << endl
+         << " - It is assumed that given data is sorted by ascending time." << endl
+         << " - Current validation takes into account car speed and latitude / "<< endl
+         << "   longitude boundaries. It does not take into account if a " << endl
+         << "   given geo-location data-point is actually located on a road" << endl
+         << "   (this would require access to either a roads geo-location " << endl
+         << "    database, or by making use of an external service (e.g. Google's" << endl
+         << "    GeoCoding API web service)." << endl
+         << "-----------------------------------------------------------------" << endl
+         << "FILE FORMAT:" << endl
+         << "File I/O formats are *.csv, comma seperated (although the code can" << endl
+         << "easily be adjusted to support other delimiters, see Csv.h)." << endl
+         << "Each *.csv line is formatted as follows:" << endl
+         << "<latitude_degrees>,<longitude_degrees>,<timestap_sec>" << endl
+         << "=================================================================" << endl;
+    // clang-format on
     break;
   case GEO_CLEAN: {
-    std::cout << csvFileIn << endl;
-    cout << csvFileOut << endl;
     GeoDataCleaner geoDataCleaner = GeoDataCleaner();
     geoDataCleaner.clean(csvFileIn, csvFileOut);
     break;
