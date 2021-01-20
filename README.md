@@ -20,14 +20,19 @@ cd /host
 # build release with debugging symbols
 ./build-debug.sh
 
-# execute unit tests
-./build/unittest
+cd into build directory (NB: test *.csv files are relative to this dir), and
+execute e2e and unit - tests.
 
-# execute end to end tests
-./build/e2etest
+```sh
+cd build
+./unittest
+./e2etest
+```
 
-# execute help to show application usage
-./build/geodata -h
+For more info execute help to show application usage:
+
+```sh
+./geodata -h
 ```
 
 ### How to build a production release? ###
